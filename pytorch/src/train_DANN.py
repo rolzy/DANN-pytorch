@@ -164,7 +164,10 @@ def train(config):
     if use_gpu:
         class_weight = class_weight.cuda()
     ad_net = network.AdversarialNetwork(base_network.output_num())
-    gradient_reverse_layer = network.AdversarialLayer.apply
+
+    def gradient_reverse_layer(input, iter_num=1):
+        return network.AdversarialLayer.apply(input, iter_num)
+
     if use_gpu:
         ad_net = ad_net.cuda()
     parameter_list.append({"params": ad_net.parameters(), "lr": 10})
