@@ -25,7 +25,7 @@ class AdversarialLayer(torch.autograd.Function):
 
   @staticmethod
   def backward(ctx, gradOutput):
-    print(f"Iter num in backward pass: " {ctx.iter_num})
+    print(f"Iter num in backward pass: {ctx.iter_num}")
     ctx.coeff = np.float(2.0 * (ctx.high - ctx.low) / (1.0 + np.exp(-ctx.alpha*ctx.iter_num / ctx.max_iter)) - (ctx.high - ctx.low) + ctx.low)
     return -ctx.coeff * gradOutput
 
