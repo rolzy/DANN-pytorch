@@ -32,12 +32,14 @@ class AdversarialLayer(torch.autograd.Function):
     return -ctx.coeff * gradOutput
 
 class SilenceLayer(torch.autograd.Function):
-  def __init__(self):
-    pass
-  def forward(self, input):
+  #def __init__(self):
+  #  pass
+  @staticmethod
+  def forward(ctx, input):
     return input * 1.0
 
-  def backward(self, gradOutput):
+  @staticmethod
+  def backward(ctx, gradOutput):
     return 0 * gradOutput
 
 
