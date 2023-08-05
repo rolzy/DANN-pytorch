@@ -15,7 +15,7 @@ class AdversarialLayer(torch.autograd.Function):
     
   @staticmethod
   def forward(ctx, input):
-    if ctx.iter_num:
+    if hasattr(ctx, 'iter_num'):
         ctx.iter_num += 1
     else:
         ctx.iter_num = 0
