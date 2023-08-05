@@ -14,12 +14,8 @@ class AdversarialLayer(torch.autograd.Function):
   #  self.max_iter = 10000.0
     
   @staticmethod
-  def forward(ctx, input):
-    if hasattr(ctx, 'iter_num'):
-        ctx.iter_num += 1
-    else:
-        print("Starting AdversarialLayer iter at 0")
-        ctx.iter_num = 0
+  def forward(ctx, input, iter_num):
+    ctx.iter_num = iter_num
     ctx.alpha = 10
     ctx.low = 0.0
     ctx.high = 1.0
@@ -29,6 +25,7 @@ class AdversarialLayer(torch.autograd.Function):
 
   @staticmethod
   def backward(ctx, gradOutput):
+    print(f"Iter num in backward pass: " {ctx.iter_num})
     ctx.coeff = np.float(2.0 * (ctx.high - ctx.low) / (1.0 + np.exp(-ctx.alpha*ctx.iter_num / ctx.max_iter)) - (ctx.high - ctx.low) + ctx.low)
     return -ctx.coeff * gradOutput
 

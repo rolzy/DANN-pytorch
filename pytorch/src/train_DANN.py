@@ -225,7 +225,7 @@ def train(config):
 
         softmax_out = nn.Softmax(dim=1)(outputs).detach()  ##provide a papr for entropy
         ad_net.train(True)
-        transfer_loss = transfer_criterion(features, ad_net, gradient_reverse_layer, use_gpu)
+        transfer_loss = transfer_criterion(features, ad_net, gradient_reverse_layer.apply(i), use_gpu)
 
         classifier_loss = class_criterion(outputs.narrow(0, 0, inputs.size(0) // 2), labels_source)
 
