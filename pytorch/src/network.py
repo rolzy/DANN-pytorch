@@ -18,6 +18,7 @@ class AdversarialLayer(torch.autograd.Function):
     if hasattr(ctx, 'iter_num'):
         ctx.iter_num += 1
     else:
+        print("Starting AdversarialLayer iter at 0")
         ctx.iter_num = 0
     ctx.alpha = 10
     ctx.low = 0.0
