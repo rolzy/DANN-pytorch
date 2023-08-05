@@ -9,8 +9,8 @@ def EntropyLoss(input_):
     entropy = -(torch.sum(mask_out * torch.log(mask_out)))
     return entropy / float(input_.size(0))
 
-def DANN(features, ad_net, grl_layer, use_gpu=True):
-    ad_out = ad_net(grl_layer(features))
+def DANN(features, ad_net, grl_layer, iter_num=1, use_gpu=True):
+    ad_out = ad_net(grl_layer(features, iter_num))
     batch_size = ad_out.size(0) // 2
     dc_target = Variable(torch.from_numpy(np.array([[1]] * batch_size + [[0]] * batch_size)).float())
     if use_gpu:
