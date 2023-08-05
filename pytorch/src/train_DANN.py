@@ -104,12 +104,12 @@ def train(config):
                                 transform=prep_dict["source"])
     dset_loaders["source"] = util_data.DataLoader(dsets["source"], \
                                                   batch_size=data_config["source"]["batch_size"], \
-                                                  shuffle=True, num_workers=4)
+                                                  shuffle=True, num_workers=2)
     dsets["target"] = ImageList(open(data_config["target"]["list_path"]).readlines(), \
                                 transform=prep_dict["target"])
     dset_loaders["target"] = util_data.DataLoader(dsets["target"], \
                                                   batch_size=data_config["target"]["batch_size"], \
-                                                  shuffle=True, num_workers=4)
+                                                  shuffle=True, num_workers=2)
 
     if prep_config["test_10crop"]:
         for i in range(10):
@@ -117,25 +117,25 @@ def train(config):
                                                transform=prep_dict["test"]["val" + str(i)])
             dset_loaders["test" + str(i)] = util_data.DataLoader(dsets["test" + str(i)], \
                                                                  batch_size=data_config["test"]["batch_size"], \
-                                                                 shuffle=False, num_workers=4)
+                                                                 shuffle=False, num_workers=2)
 
             dsets["target" + str(i)] = ImageList(open(data_config["target"]["list_path"]).readlines(), \
                                                  transform=prep_dict["test"]["val" + str(i)])
             dset_loaders["target" + str(i)] = util_data.DataLoader(dsets["target" + str(i)], \
                                                                    batch_size=data_config["test"]["batch_size"], \
-                                                                   shuffle=False, num_workers=4)
+                                                                   shuffle=False, num_workers=2)
     else:
         dsets["test"] = ImageList(open(data_config["test"]["list_path"]).readlines(), \
                                   transform=prep_dict["test"])
         dset_loaders["test"] = util_data.DataLoader(dsets["test"], \
                                                     batch_size=data_config["test"]["batch_size"], \
-                                                    shuffle=False, num_workers=4)
+                                                    shuffle=False, num_workers=2)
 
         dsets["target_test"] = ImageList(open(data_config["target"]["list_path"]).readlines(), \
                                          transform=prep_dict["test"])
         dset_loaders["target_test"] = MyDataLoader(dsets["target_test"], \
                                                    batch_size=data_config["test"]["batch_size"], \
-                                                   shuffle=False, num_workers=4)
+                                                   shuffle=False, num_workers=2)
 
     class_num = config["network"]["params"]["class_num"]
 
