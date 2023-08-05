@@ -13,11 +13,13 @@ class AdversarialLayer(torch.autograd.Function):
     self.high = high_value
     self.max_iter = 10000.0
     
+  @staticmethod
   def forward(self, input):
     self.iter_num += 1
     output = input * 1.0
     return output
 
+  @staticmethod
   def backward(self, gradOutput):
     self.coeff = np.float(2.0 * (self.high - self.low) / (1.0 + np.exp(-self.alpha*self.iter_num / self.max_iter)) - (self.high - self.low) + self.low)
     return -self.coeff * gradOutput
