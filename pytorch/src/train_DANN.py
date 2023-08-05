@@ -24,7 +24,7 @@ def image_classification_test(loader, model, test_10crop=True, gpu=True, iter_nu
     if test_10crop:
         iter_test = [iter(loader['test' + str(i)]) for i in range(10)]
         for i in range(len(loader['test0'])):
-            data = [iter_test[j].next() for j in range(10)]
+            data = [next(iter_test[j]) for j in range(10)]
             inputs = [data[j][0] for j in range(10)]
             labels = data[0][1]
             if gpu:
@@ -50,7 +50,7 @@ def image_classification_test(loader, model, test_10crop=True, gpu=True, iter_nu
     else:
         iter_test = iter(loader["test"])
         for i in range(len(loader['test'])):
-            data = iter_test.next()
+            data = next(iter_test)
             inputs = data[0]
             labels = data[1]
             if gpu:
@@ -210,8 +210,8 @@ def train(config):
             iter_source = iter(dset_loaders["source"])
         if i % len_train_target == 0:
             iter_target = iter(dset_loaders["target"])
-        inputs_source, labels_source = iter_source.next()
-        inputs_target, labels_target = iter_target.next()
+        inputs_source, labels_source = next(iter_source)
+        inputs_target, labels_target = next(iter_target)
         if use_gpu:
             inputs_source, inputs_target, labels_source = \
                 Variable(inputs_source).cuda(), Variable(inputs_target).cuda(), \
