@@ -227,7 +227,7 @@ def train(config):
         ad_net.train(True)
         transfer_loss = transfer_criterion(features, ad_net, gradient_reverse_layer, use_gpu)
 
-        classifier_loss = class_criterion(outputs.narrow(0, 0, inputs.size(0) / 2), labels_source)
+        classifier_loss = class_criterion(outputs.narrow(0, 0, inputs.size(0) // 2), labels_source)
 
         total_loss = loss_params["trade_off"] * transfer_loss + classifier_loss
         total_loss.backward()
