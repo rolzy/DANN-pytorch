@@ -6,30 +6,23 @@ from torchvision import models
 from torch.autograd import Variable
 
 class AdversarialLayer(torch.autograd.Function):
-  #def __init__(self, high_value=1.0):
-  #  self.iter_num = 0
-  #  self.alpha = 10
-  #  self.low = 0.0
-  #  self.high = high_value
-  #  self.max_iter = 10000.0
+  def __init__(self, high_value=1.0):
+    self.iter_num = 0
+    self.alpha = 10
+    self.low = 0.0
+    self.high = high_value
+    self.max_iter = 10000.0
     
   @staticmethod
-  def forward(ctx, input, high_value=1.0):
-    if ctx.iter_num:
-        ctx.iter_num += 1
-    else:
-        ctx.iter_num = 0
-    ctx.alpha = 10
-    ctx.low = 0.0
-    ctx.high = high_value
-    ctx.max_iter = 10000.0
+  def forward(self, input):
+    self.iter_num += 1
     output = input * 1.0
     return output
 
   @staticmethod
-  def backward(ctx, gradOutput):
-    ctx.coeff = np.float(2.0 * (ctx.high - ctx.low) / (1.0 + np.exp(-ctx.alpha*ctx.iter_num / ctx.max_iter)) - (ctx.high - ctx.low) + ctx.low)
-    return -ctx.coeff * gradOutput
+  def backward(self, gradOutput):
+    self.coeff = np.float(2.0 * (self.high - self.low) / (1.0 + np.exp(-self.alpha*self.iter_num / self.max_iter)) - (self.high - self.low) + self.low)
+    return -self.coeff * gradOutput
 
 class SilenceLayer(torch.autograd.Function):
   def __init__(self):
